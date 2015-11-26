@@ -1,0 +1,118 @@
+// Abstract Products
+public interface Letter {
+  public String getIntro();
+  public String getBody();
+}
+
+public interface Resume {
+  public String getIntro();
+  public String getBody();
+}
+ 
+// Concrete Products for Resume
+public class FancyResume implements Resume {
+  public void getIntro() {
+    // Get fancy intro here
+  }
+  public void getBody() {
+    // Get fancy body here
+  }
+}
+
+public class ModernResume implements Resume {
+  public void getIntro() {
+    // Get modern intro here
+  }
+  public void getBody() {
+    // Get modern body here
+  }
+}
+ 
+// Concrete Products for Letter
+public class FancyLetter implements Letter {
+  public void getIntro() {
+    // Get fancy intro here
+  }
+  public void getBody() {
+    // Get fancy body here
+  }
+}
+
+public class ModernLetter implements Letter {
+  public void getIntro() {
+    // Get modern intro here
+  }
+  public void getBody() {
+    // Get modern body here
+  }
+}
+ 
+// Abstract Factory
+public interface DocumentCreator {
+  public Letter createLetter();
+  public Resume cerateResume();
+}
+ 
+// Concrete Factory 1
+public class FancyDocumentCreator implements DocumentCreator {
+  // Create fancy documents
+  public Letter createLetter() {
+    return new FancyLetter();
+  }
+  public Resume createResume() {
+    return new Resume();
+  }
+}
+ 
+// Concrete Factory 2
+public class ModernDocumentCreator implements DocumentCreator {
+  // Create modern documents
+  public Letter createLetter() {
+    return new ModernLetter();
+  }
+  public Resume createResume() {
+    return new ModernResume();
+  }
+}
+
+// Client class
+public class DocumentBuilder {
+  public void buildResume(DocumentCreator documentCreator) {
+    Resume resume = documentCreator.createResume();
+    // do stuff here presumably
+  }
+  public void buildLetter(DocumentCreator documentCreator) {
+    Letter letter = documentCreator.createLetter();
+  } 
+}
+
+// Mechanism to build new documents
+public class Main {
+  public static void main(String[] args) {
+    // Assume first argument is fancy/modern and second is resume/letter
+    DocumentBuilder builder = new DocumentBuilder();
+    DocumentCreator docCreator = null;
+    
+    // Specify fancy or modern based on first input
+    if (args[0].equals("fancy")) {
+      docCreator = new FancyDocumentCreator();  
+    }
+    else if (args[0].equals("modern")) {
+      docCreator = new ModernDocumentCreator();
+    }
+    else {
+      throw new RuntimeException("Make your mind up - fancy or modern?");
+    }
+    
+    // Specify letter or resume based on second input
+    if (args[1].equals("resume")) {
+      docCreator.createResume();  
+    }
+    else if (args[1].equals("letter")) {
+      docCreator.createLetter();
+    }
+    else {
+      throw new RuntimeException("Make your mind up - letter or resume?");
+    }
+  }
+}
